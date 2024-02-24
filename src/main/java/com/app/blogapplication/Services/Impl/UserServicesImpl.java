@@ -25,7 +25,7 @@ public class UserServicesImpl implements UserServices {
             Author user = this.mapper.map(userdto, Author.class);
             userRepo.save(user);
             log.info("user created");
-            return userdto;
+            return this.mapper.map(user, AuthorDTO.class);
         } catch (Exception e) {
             log.error("Something went wrong while creating user profile");
             throw new RuntimeException(e.getMessage());
