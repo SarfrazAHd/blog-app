@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class CommentDTO {
     private int commentId;
     private String comment;
-    private PostDTO post;
+    private Long postId;
+//    private Long userId;
+//    private PostDTO post;
     private AuthorDTO user;
 }

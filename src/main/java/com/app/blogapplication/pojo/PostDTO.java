@@ -16,11 +16,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostDTO {
-    private int postId;
+    private Long postId;
     private String title;
     private String content;
     private AuthorDTO author;
     private CategoryDTO categories;
-    private Set<CommentDTO> comments;
+    private List<CommentDTO> comments;
     private LocalDateTime createdAt;
 }

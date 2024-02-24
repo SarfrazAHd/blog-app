@@ -1,10 +1,14 @@
 package com.app.blogapplication.model;
 
+import com.app.blogapplication.pojo.AuthorDTO;
+import com.app.blogapplication.pojo.CategoryDTO;
+import com.app.blogapplication.pojo.CommentDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -32,6 +36,4 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
-
-
 }

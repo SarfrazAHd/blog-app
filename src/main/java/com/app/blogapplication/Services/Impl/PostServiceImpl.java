@@ -3,9 +3,12 @@ package com.app.blogapplication.Services.Impl;
 import com.app.blogapplication.Services.PostServices;
 import com.app.blogapplication.model.Author;
 import com.app.blogapplication.model.Category;
+import com.app.blogapplication.model.Comment;
 import com.app.blogapplication.model.Post;
+import com.app.blogapplication.pojo.CommentDTO;
 import com.app.blogapplication.pojo.PostDTO;
 import com.app.blogapplication.repository.CategoryRepository;
+import com.app.blogapplication.repository.CommentRepository;
 import com.app.blogapplication.repository.PostRepository;
 import com.app.blogapplication.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ public class PostServiceImpl implements PostServices {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final CommentRepository commentRepository;
 
     @Override
     public PostDTO createPost(PostDTO postDTO) {
@@ -52,11 +56,19 @@ public class PostServiceImpl implements PostServices {
     }
 
     @Override
-    public List<PostDTO> getALlPosts() {
+    public List<PostDTO> getAllPosts() {
         try {
             List<PostDTO> posts = postRepository.findAll().
-                    stream().
-                    map(post -> this.modelMapper.map(post, PostDTO.class))
+                    stream()
+                    .map(post -> this.modelMapper.map(post, PostDTO.class))
+                    .map(post -> {
+                        List<CommentDTO> comments = commentRepository
+                                .findAllCommentByPostId(post.getPostId()).stream()
+                                .map(comment -> modelMapper.map(comment, CommentDTO.class))
+                                .collect(Collectors.toList());
+                        post.setComments(comments);
+                        return post;
+                    })
                     .collect(Collectors.toList());
             return posts;
         } catch (Exception e) {
@@ -69,9 +81,15 @@ public class PostServiceImpl implements PostServices {
     public PostDTO getPostById(Long postId) {
         try {
             PostDTO posts = this.modelMapper.map(postRepository.findById(postId), PostDTO.class);
+            List<CommentDTO> commentsByPostId = commentRepository.findAllCommentByPostId(postId)
+                    .stream()
+                    .map(comment -> modelMapper.map(comment, CommentDTO.class))
+                    .collect(Collectors.toList());
+            posts.setComments(commentsByPostId);
             return posts;
+
         } catch (Exception e) {
-            log.error("Something went wrong while fetching posts for Id {}",postId);
+            log.error("Something went wrong while fetching posts for Id {}", postId);
             throw new RuntimeException(e.getMessage());
         }
     }
