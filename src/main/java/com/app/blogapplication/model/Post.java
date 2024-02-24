@@ -5,6 +5,7 @@ import com.app.blogapplication.pojo.CategoryDTO;
 import com.app.blogapplication.pojo.CommentDTO;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +20,7 @@ public class Post {
 
     private String title;
     private String content;
+    @Getter
     private LocalDateTime createdAt;
 
     @ManyToOne

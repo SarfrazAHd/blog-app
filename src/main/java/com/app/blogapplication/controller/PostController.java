@@ -49,4 +49,25 @@ public class PostController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity deltePostById(@PathVariable Long postId) {
+        try {
+            postServices.deletePostById(postId);
+            return new ResponseEntity<>("post deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /*this api Having some issue, not fully fuctional..*/
+    @PatchMapping("/update")
+    public ResponseEntity updatePost(@RequestBody PostDTO post) {
+        try {
+            PostDTO response = postServices.updatePost(post);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

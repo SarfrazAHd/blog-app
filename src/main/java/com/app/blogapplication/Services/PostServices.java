@@ -6,15 +6,9 @@ import com.app.blogapplication.pojo.PostDTO;
 import java.util.List;
 
 public interface PostServices {
-    //create Post
     PostDTO createPost(PostDTO post);
     List<PostDTO> getAllPosts();
-
     PostDTO getPostById(Long postId);
-    //getALlPost
-    //GetOnePost
-    //GetPostByCategory
-    //GetPostByUser
-    //update post
-    //delete post
+    void deletePostById(Long postId);
+    PostDTO updatePost(PostDTO post);
 }
