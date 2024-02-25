@@ -66,4 +66,15 @@ public class CategoryServiceImpl implements CategoryService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    @Override
+    public void deleteCategory(Long categoryId) {
+        try {
+          categoryRepository.deleteById(categoryId);
+          log.info("Category has been deleted for categoryId : {}",categoryId);
+        } catch (Exception e) {
+            log.error("Something went wrong while deleteCategory for Id : {}",categoryId);
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

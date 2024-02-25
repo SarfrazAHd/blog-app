@@ -46,4 +46,15 @@ public class UserController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /*this not working properly, will check later..*/
+    @DeleteMapping("/{userId}")
+    public ResponseEntity deleteUserById(@PathVariable Long userId) {
+        try {
+            userServices.deleteUserById(userId);
+            return new ResponseEntity<>("user has been deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

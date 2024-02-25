@@ -1,12 +1,6 @@
 package com.app.blogapplication.controller;
 
-import com.app.blogapplication.Services.CategoryService;
-import com.app.blogapplication.Services.CommentService;
 import com.app.blogapplication.Services.PostServices;
-import com.app.blogapplication.Services.UserServices;
-import com.app.blogapplication.pojo.AuthorDTO;
-import com.app.blogapplication.pojo.CategoryDTO;
-import com.app.blogapplication.pojo.CommentDTO;
 import com.app.blogapplication.pojo.PostDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,6 +38,27 @@ public class PostController {
     public ResponseEntity getPostById(@PathVariable Long postId) {
         try {
             PostDTO response = postServices.getPostById(postId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity deltePostById(@PathVariable Long postId) {
+        try {
+            postServices.deletePostById(postId);
+            return new ResponseEntity<>("post deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /*this api having some issue, not fully fuctional..*/
+    @PatchMapping("/update")
+    public ResponseEntity updatePost(@RequestBody PostDTO post) {
+        try {
+            PostDTO response = postServices.updatePost(post);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

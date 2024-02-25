@@ -11,6 +11,7 @@ import com.app.blogapplication.repository.CategoryRepository;
 import com.app.blogapplication.repository.CommentRepository;
 import com.app.blogapplication.repository.PostRepository;
 import com.app.blogapplication.repository.UserRepository;
+import com.app.blogapplication.util.BlogUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,16 +31,12 @@ public class PostServiceImpl implements PostServices {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final CommentRepository commentRepository;
-
+    private final BlogUtil blogUtil;
     @Override
     public PostDTO createPost(PostDTO postDTO) {
         try {
-            // Post
             Post post = this.modelMapper.map(postDTO, Post.class);
-
-            // Fetching Author by their email address
             Author authorByUserName = userRepository.findAuthorByEmail(postDTO.getAuthor().getEmail());
-            // Fetching post category by category name
             Category category = categoryRepository.findByName(postDTO.getCategories().getName());
 
             post.setAuthor(authorByUserName);
@@ -90,6 +88,32 @@ public class PostServiceImpl implements PostServices {
 
         } catch (Exception e) {
             log.error("Something went wrong while fetching posts for Id {}", postId);
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void deletePostById(Long postId) {
+        try {
+            postRepository.deleteById(postId);
+        } catch (Exception e) {
+            log.error("something  went wrong while deleting postId : {}", postId);
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public PostDTO updatePost(PostDTO postDTO) {
+        try {
+//            Post postFromDb = postRepository.findPostByPostId(postDTO.getPostId());
+            PostDTO posts = this.modelMapper.map(postRepository.findById(postDTO.getPostId()), PostDTO.class);
+            posts = blogUtil.setPostDtoIntoPost(postDTO, posts);
+
+            Post save = postRepository.save(modelMapper.map(posts, Post.class));
+
+            return modelMapper.map(save, PostDTO.class);
+        } catch (Exception e) {
+            log.error("something  went wrong while update postId : {}", postDTO.getPostId());
             throw new RuntimeException(e.getMessage());
         }
     }
