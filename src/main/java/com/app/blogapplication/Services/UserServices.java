@@ -13,4 +13,5 @@ public interface UserServices {
     AuthorDTO createUser(AuthorDTO user);
     List<AuthorDTO> getALlusers();
     AuthorDTO getUserById(Long userId);
+    void deleteUserById(Long userId);
 }

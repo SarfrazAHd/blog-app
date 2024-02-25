@@ -47,5 +47,15 @@ public class CommentController {
         }
     }
 
+    @DeleteMapping("/delete/{commentId}")
+    public ResponseEntity deleteComment(@PathVariable Long commentId) {
+        try {
+            commentService.deleteComment(commentId);
+            return new ResponseEntity<>("Comment has been deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
 

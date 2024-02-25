@@ -75,4 +75,15 @@ public class CommentServiceImpl implements CommentService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    @Override
+    public void deleteComment(Long commentId) {
+        try {
+            commentRepository.deleteById(commentId);
+            log.info("Comment for Id : {} has been deleted",commentId);
+        } catch (Exception e) {
+            log.error("deleteComment failed due to {}", e.getCause());
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

@@ -23,7 +23,7 @@ public class Post {
     @Getter
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private Author author;
 

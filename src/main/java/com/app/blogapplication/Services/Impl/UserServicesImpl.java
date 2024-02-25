@@ -55,4 +55,18 @@ public class UserServicesImpl implements UserServices {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    @Override
+    public void deleteUserById(Long userId) {
+        try {
+            synchronized (this) {
+                userRepo.deleteById(userId);
+                //userRepo.deleteByEmail(username);
+                log.info("userId : {} has been deleted", userId);
+            }
+        } catch (Exception e) {
+            log.error("Something went wrong while deleting userId {}", userId);
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

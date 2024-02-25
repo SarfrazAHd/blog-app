@@ -10,7 +10,7 @@ public interface CategoryService {
     CategoryDTO createCategory(CategoryDTO categoryDTO);
     boolean isCategoryExist(String categorName);
     List<CategoryDTO> getALlCategory();
-
     CategoryDTO getCategoryById(Long categoryId);
+    void deleteCategory(Long categoryId);
     //delete Category
 }

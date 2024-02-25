@@ -1,12 +1,6 @@
 package com.app.blogapplication.controller;
 
-import com.app.blogapplication.Services.CategoryService;
-import com.app.blogapplication.Services.CommentService;
 import com.app.blogapplication.Services.PostServices;
-import com.app.blogapplication.Services.UserServices;
-import com.app.blogapplication.pojo.AuthorDTO;
-import com.app.blogapplication.pojo.CategoryDTO;
-import com.app.blogapplication.pojo.CommentDTO;
 import com.app.blogapplication.pojo.PostDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -60,7 +54,7 @@ public class PostController {
         }
     }
 
-    /*this api Having some issue, not fully fuctional..*/
+    /*this api having some issue, not fully fuctional..*/
     @PatchMapping("/update")
     public ResponseEntity updatePost(@RequestBody PostDTO post) {
         try {
